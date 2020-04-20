@@ -1,0 +1,24 @@
+{
+    "name": "ovidigital/js-object-to-json",
+    "description": "PHP library to convert a JavaScript object string to JSON formatted string",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ovi Indrei",
+            "email": "ovidiu.indrei@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.0"
+    },
+    "autoload": {
+        "psr-4": { "OviDigital\\JsObjectToJson\\": "src" }
+    },
+    "keywords": ["json", "js", "javascript", "object"],
+    "homepage": "https://github.com/ovidigital/js-object-to-json",
+    "support": {
+        "issues": "https://github.com/ovidigital/js-object-to-json/issues",
+        "source": "https://github.com/ovidigital/js-object-to-json"
+    }
+}
