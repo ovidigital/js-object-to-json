@@ -34,7 +34,17 @@ class JsConverter
         $convertedString = preg_replace('/([^{}\[\]#,]+):/', '"$1":', $convertedString);
 
         // 4. Add double quotes for values
-        $convertedString = preg_replace('/:([^{}\[\]#,]+)/', ':"$1"', $convertedString);
+        $convertedString = preg_replace_callback(
+            '/:([^{}\[\]#,]+)/',
+            function ($matches) {
+                if (is_numeric($matches[1])) {
+                    return ':' . $matches[1];
+                } else {
+                    return ':"' . $matches[1] . '"';
+                }
+            },
+            $convertedString
+        );
 
         // 5. Make sure "true", "false" and "null" values get delimited by double quotes
         // Need to run the replacement twice, because not all values get replaced if they are adjacent
