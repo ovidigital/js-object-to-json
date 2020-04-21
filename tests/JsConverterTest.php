@@ -161,7 +161,7 @@ EOT;
 EOT;
 
         $expected = <<<EOT
-{"key1":{},"key2":{"key21":"v21","key22":"v22","key23"":123,"key24":["x","y","z",1,2,3,"true","false","null"]},"key3":{"key31":{"key311":{"key3111":[{"nestedKey11":"str","nestedKey12":1337,"nestedKey13":["x","y","z",1,2,3,"true","false","null"]},{"nestedKey21":"str","nestedKey22":"1337","nestedKey23":["x","y","z",1,2,3,"true","false","null"]}]}}}}
+{"key1":{},"key2":{"key21":"v21","key22":"v22","key23":123,"key24":["x","y","z",1,2,3,"true","false","null"]},"key3":{"key31":{"key311":{"key3111":[{"nestedKey11":"str","nestedKey12":1337,"nestedKey13":["x","y","z",1,2,3,"true","false","null"]},{"nestedKey21":"str","nestedKey22":1337,"nestedKey23":["x","y","z",1,2,3,"true","false","null"]}]}}}}
 EOT;
 
         $converted = JsConverter::convertToJson($input);
