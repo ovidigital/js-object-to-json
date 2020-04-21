@@ -24,6 +24,7 @@ class JsConverter
 
         // 1. Replace all delimited string literals with placeholders
         $convertedString = self::replaceSectionsWithPlaceholders($jsObjectString, $replacedStringsList, "'");
+        self::fixQuoteEscapingForSingleQuoteDelimitedStrings($replacedStringsList);
         $convertedString = self::replaceSectionsWithPlaceholders($convertedString, $replacedStringsList, '"');
 
         // 2. Now is safe to remove all white space
@@ -108,5 +109,25 @@ class JsConverter
         $output .= substr($input, $contentCopiedUntilPos + 1);
 
         return $output;
+    }
+
+    /**
+     * Fix the escaping for quotes inside strings that were initially delimited by single quotes.
+     *
+     * For example:
+     * ```
+     *  'string containing \' single quote' => "string containing ' single quote"
+     *  'string containing " double quote' => "string containing \" double quote"
+     * ```
+     * @param array $strings
+     */
+    protected static function fixQuoteEscapingForSingleQuoteDelimitedStrings(array &$strings)
+    {
+        foreach ($strings as &$string) {
+            // Escape contained double quotes
+            $string = preg_replace('/([^\\\])"/', '$1\"', $string);
+            // Unescape contained single quotes
+            $string = preg_replace("/\\\\'/", "'", $string);
+        }
     }
 }
