@@ -1,6 +1,8 @@
 # ovidigital/js-object-to-json
 ###### PHP library to convert a JavaScript object string to JSON formatted string
 
+[![Build Status](https://travis-ci.com/ovidigital/js-object-to-json.svg?branch=master)](https://travis-ci.com/ovidigital/js-object-to-json)
+
 ## Installation
 ```bash
 composer require ovidigital/js-object-to-json
