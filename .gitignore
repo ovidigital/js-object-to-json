@@ -11,5 +11,8 @@ Icon?
 Thumbs.db
 ._*
 
-# Composer vendor folder
-vendor/
+# Build/test/deploy specific
+/build/
+/vendor/
+/composer.lock
+/phpunit.xml
