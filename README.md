@@ -12,13 +12,11 @@ composer require ovidigital/js-object-to-json
 ## Usage
 
 ```php
-<?php
-
 // A variable containing a JavaScript object as a string
 $jsObjectString = "{ foo:  'bar' }";
 
 // Convert the Javascript object to JSON format
-$json = Ovidigital\JsObjectToJson\JsConverter::convertToJson($jsObjectString);
+$json = \Ovidigital\JsObjectToJson\JsConverter::convertToJson($jsObjectString);
 ```
 
 ## Contributing
