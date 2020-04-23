@@ -18,6 +18,9 @@
     "autoload": {
         "psr-4": { "OviDigital\\JsObjectToJson\\": "src" }
     },
+    "autoload-dev": {
+        "psr-4": { "OviDigital\\Tests\\": "tests" }
+    },
     "scripts": {
         "test": "phpunit"
     },

@@ -1,7 +1,8 @@
 <?php
 
-namespace OviDigital\JsObjectToJson;
+namespace OviDigital\Tests;
 
+use OviDigital\JsObjectToJson\JsConverter;
 use PHPUnit\Framework\TestCase;
 
 class JsConverterTest extends TestCase
