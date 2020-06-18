@@ -52,13 +52,19 @@ class JsConverter
         $convertedString = preg_replace('/([^"])(true|false|null)([^"])/', '$1"$2"$3', $convertedString);
 
         // 6. Replace the placeholders with the initial strings
-        $convertedString = preg_replace_callback(
-            '/###(\d+)###/',
-            function ($matches) use ($replacedStringsList) {
-                return '"' . $replacedStringsList[$matches[1]] . '"';
-            },
-            $convertedString
-        );
+        $deep = false;
+        do {
+            $convertedString = preg_replace_callback(
+                '/###(\d+)###/',
+                function ($matches) use (&$replacedStringsList, $deep) {
+                    $replace = $replacedStringsList[$matches[1]];
+                    unset($replacedStringsList[$matches[1]]);
+                    return ($deep ? "'" . $replace . "'" : '"' . $replace . '"');
+                },
+                $convertedString
+            );
+            $deep = true;
+        } while (!empty($replacedStringsList));
 
         return $convertedString;
     }
