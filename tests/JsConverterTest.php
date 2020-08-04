@@ -169,4 +169,23 @@ EOT;
 
         $this->assertEquals($expected, $converted);
     }
+
+    public function testEmbeddedHtml()
+    {
+        $input = <<<EOT
+{
+    key1: '<p style="color: red;">text</p>',
+    key2: "<p style=\"color: red;\">text</p>",
+    key3: "<p style='color: red;'>text</p>",
+}
+EOT;
+        $expected = <<<EOT
+{"key1":"<p style=\"color: red;\">text</p>","key2":"<p style=\"color: red;\">text</p>","key3":"<p style='color: red;'>text</p>",}
+EOT;
+;
+
+        $converted = JsConverter::convertToJson($input);
+
+        $this->assertEquals($expected, $converted);
+    }
 }
