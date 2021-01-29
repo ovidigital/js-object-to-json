@@ -176,11 +176,11 @@ EOT;
 {
     key1: '<p style="color: red;">text</p>',
     key2: "<p style=\"color: red;\">text</p>",
-    key3: "<p style='color: red;'>text</p>",
+    key3: "<p style='color: red;'>text</p>"
 }
 EOT;
         $expected = <<<EOT
-{"key1":"<p style=\"color: red;\">text</p>","key2":"<p style=\"color: red;\">text</p>","key3":"<p style='color: red;'>text</p>",}
+{"key1":"<p style=\"color: red;\">text</p>","key2":"<p style=\"color: red;\">text</p>","key3":"<p style='color: red;'>text</p>"}
 EOT;
 ;
 
