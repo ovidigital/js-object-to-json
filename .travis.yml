@@ -20,8 +20,8 @@ php:
 
 env:
   matrix:
-    - COMPOSER_FLAGS="--prefer-lowest"
-    - COMPOSER_FLAGS=""
+    - XDEBUG_MODE=coverage COMPOSER_FLAGS="--prefer-lowest"
+    - XDEBUG_MODE=coverage COMPOSER_FLAGS=""
 
 matrix:
   fast_finish: true
