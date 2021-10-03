@@ -16,7 +16,7 @@ composer require ovidigital/js-object-to-json
 $jsObjectString = "{ foo:  'bar' }";
 
 // Convert the Javascript object to JSON format
-$json = \Ovidigital\JsObjectToJson\JsConverter::convertToJson($jsObjectString);
+$json = \OviDigital\JsObjectToJson\JsConverter::convertToJson($jsObjectString);
 ```
 
 ## Contributing
