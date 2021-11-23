@@ -1,10 +1,6 @@
-name: PHP Composer
+name: CI
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [push]
 
 jobs:
   test-7_1:
