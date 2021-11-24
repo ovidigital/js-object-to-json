@@ -12,12 +12,15 @@ on:
 jobs:
   run:
     name: Run
-    runs-on: ${{ matrix.operating-system }}
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ubuntu-18.04]
+        os: [ubuntu-18.04]
         php-versions: ['7.1', '7.2', '7.3', '7.4', '8.0']
+    env:
+      OS: ${{ matrix.os }}
+      PHP_VERSION: ${{ matrix.php-versions }}
     steps:
 
     - name: Checkout repository
@@ -28,6 +31,7 @@ jobs:
       with:
         php-version: ${{ matrix.php-versions }}
         tools: composer:v2
+        coverage: xdebug
 
     - name: Testing PHP version
       run: |
@@ -39,3 +43,11 @@ jobs:
 
     - name: Run test suite
       run: composer run-script test
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v2
+      with:
+        env_vars: OS,PHP_VERSION
+        files: ./coverage.xml
+        flags: unittests
+        verbose: true
