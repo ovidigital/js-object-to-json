@@ -2,7 +2,7 @@
 ###### PHP library to convert a JavaScript object string to JSON formatted string
 
 [![Latest Version](https://img.shields.io/packagist/v/ovidigital/js-object-to-json.svg?acheSeconds=3600&label=latest%20version)](https://github.com/ovidigital/js-object-to-json/releases)
-[![Build Status](https://github.com/ovidigital/js-object-to-json/actions/workflows/ci.yml/badge.svg?branch=master)](ovidigital/js-object-to-json)
+[![Build Status](https://github.com/ovidigital/js-object-to-json/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/ovidigital/js-object-to-json/actions/workflows/ci.yml?query=branch%3Amaster)
 [![codecov](https://codecov.io/gh/ovidigital/js-object-to-json/branch/master/graph/badge.svg?token=YMKLV63PTA)](https://codecov.io/gh/ovidigital/js-object-to-json)
 
 ## Installation
