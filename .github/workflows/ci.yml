@@ -1,96 +1,38 @@
 name: CI
 
-on: [push]
-
+on:
+  pull_request:
+    branches:
+      - master
+    paths-ignore:
+      - '**.md'
+  push:
+    paths-ignore:
+      - '**.md'
 jobs:
-  test-7_1:
-    runs-on: ubuntu-18.04
+  run:
+    name: Run
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ubuntu-18.04]
+        php-versions: ['7.1', '7.2', '7.3', '7.4', '8.0']
     steps:
 
     - name: Checkout repository
       uses: actions/checkout@v2
-      
-    - name: Setup PHP 7.1 with composer v2
+
+    - name: Setup PHP ${{ matrix.php-versions }} with composer v2
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '7.1'
+        php-version: ${{ matrix.php-versions }}
         tools: composer:v2
 
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
-
-    - name: Run test suite
-      run: composer run-script test
-
-  test-7_2:
-    runs-on: ubuntu-18.04
-    steps:
-
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      
-    - name: Setup PHP 7.2 with composer v2
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '7.2'
-        tools: composer:v2
-
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
-
-    - name: Run test suite
-      run: composer run-script test
-
-  test-7_3:
-    runs-on: ubuntu-18.04
-    steps:
-
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      
-    - name: Setup PHP 7.3 with composer v2
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '7.3'
-        tools: composer:v2
-
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
-
-    - name: Run test suite
-      run: composer run-script test
-
-  test-7_4:
-    runs-on: ubuntu-18.04
-    steps:
-
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      
-    - name: Setup PHP 7.4 with composer v2
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '7.4'
-        tools: composer:v2
-
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
-
-    - name: Run test suite
-      run: composer run-script test
-
-  test-8_0:
-    runs-on: ubuntu-18.04
-    steps:
-
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      
-    - name: Setup PHP 8.0 with composer v2
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.0'
-        tools: composer:v2
+    - name: Testing PHP version
+      run: |
+        php -v
+        php -r "if(strpos(phpversion(), '${{ matrix.php-versions }}') === false) {throw new Exception('Wrong PHP version Installed');}"
 
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
