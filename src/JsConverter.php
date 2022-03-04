@@ -30,6 +30,9 @@ class JsConverter
         // 2. Now is safe to remove all white space
         $convertedString = preg_replace('/\s+/m', '', $convertedString);
 
+        // 2b. And remove all trailing commas in objects
+        $convertedString = str_replace(',}', '}', $convertedString);
+
         // 3. Add double quotes for keys
         $convertedString = preg_replace('/([^{}\[\]#,]+):/', '"$1":', $convertedString);
 
