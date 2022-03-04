@@ -112,9 +112,9 @@ class JsConverter
      *
      * @param string $input
      * @param boolean $debug
-     * @return void
+     * @return string
      */
-    public static function removeFunctions(string $input, bool $debug = false)
+    public static function removeFunctions(string $input, bool $debug = false): string
     {
         $functionLines = '/^(\s*)([\'"]?\w+[\'"]?):\s*((?:function\s*)\([^\)]*\)\s*{|\s*(?:\([^)]*\)|[a-z0-9]+)\s*=>\s*)/';
         $lines = preg_split('/[\n\r]/', $input);
