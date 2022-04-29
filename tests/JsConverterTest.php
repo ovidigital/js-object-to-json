@@ -170,6 +170,46 @@ EOT;
         $this->assertEquals($expected, $converted);
     }
 
+    public function testTrailingCommas()
+    {
+        $input = <<<EOT
+{
+    key1: [
+        'item 1',
+        "item 2",
+        "item 3",
+    ],
+    key2: [true, false, null, 1, 2, 3,],
+    key3: {
+        key31 : {
+            key311: {
+                key3111: [
+                    {
+                        nestedKey11: "str",
+                        nestedKey12: 1337,
+                        nestedKey13: ['x', "y", "z", 1, 2, 3, true, false, null],
+                    },
+                    {
+                        nestedKey21: "str",
+                        nestedKey22: 1337,
+                        nestedKey23: ['x', "y", "z", 1, 2, 3, true, false, null] ,
+                    },
+                ]
+            },
+        },
+    },
+}
+EOT;
+
+        $expected = <<<EOT
+{"key1":["item 1","item 2","item 3"],"key2":["true","false","null",1,2,3],"key3":{"key31":{"key311":{"key3111":[{"nestedKey11":"str","nestedKey12":1337,"nestedKey13":["x","y","z",1,2,3,"true","false","null"]},{"nestedKey21":"str","nestedKey22":1337,"nestedKey23":["x","y","z",1,2,3,"true","false","null"]}]}}}}
+EOT;
+
+        $converted = JsConverter::convertToJson($input);
+
+        $this->assertEquals($expected, $converted);
+    }
+
     public function testEmbeddedHtml()
     {
         $input = <<<EOT
