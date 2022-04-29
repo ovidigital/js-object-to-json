@@ -95,7 +95,7 @@ class JsConverter
     /**
      * Remove all JS functions by counting the number of braces between open and
      * close (excl strings which should be placeholder-ed at this point).
-     * 
+     *
      * Removes shorthand and longhand functions whether they're single or multi-line:
      *     key: (var) => 'Test',
      *     key: var => 'Test',
@@ -111,7 +111,7 @@ class JsConverter
      *         if (complex) {
      *             return 'Test';
      *         }
-     * 
+     *
      *         return 'Test';
      *     },
      *     key() {
@@ -128,7 +128,7 @@ class JsConverter
         $lines = preg_split('/[\n\r]/', $input);
 
         $delete = false;
-        
+
         $opens = 0;
         $closes = 0;
         $table = [];
@@ -159,7 +159,7 @@ class JsConverter
                     $row['action'] = 'Delete (Continue)';
                 }
 
-                
+
                 $table[] = $row;
                 continue;
             }
@@ -198,7 +198,7 @@ class JsConverter
                     . '<td>'. $row['closes'] . '</td>'
                 . '</tr>';
             }
-            
+
             print '</table>';
             die();
         }

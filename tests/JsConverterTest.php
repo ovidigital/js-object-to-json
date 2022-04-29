@@ -23,7 +23,7 @@ class JsConverterTest extends TestCase
     {
         $input = <<<EOT
 {
-    key1: 'value 1', 
+    key1: 'value 1',
     'key2': 'value 2'
 }
 EOT;
@@ -44,7 +44,7 @@ EOT;
     {
         $input = <<<EOT
 {
-    key1: 'value 1', 
+    key1: 'value 1',
     'key2': "value 2",
     "key3": 'value 3'
 }
@@ -79,7 +79,7 @@ EOT;
     {
         $input = <<<EOT
 {
-    key1: null, 
+    key1: null,
     key2: true,
     key3: false
 }
@@ -95,7 +95,7 @@ EOT;
     {
         $input = <<<EOT
 {
-    key1: 0, 
+    key1: 0,
     key2: 1337,
     key3: -45,
     key4: 3.78,
@@ -120,8 +120,8 @@ EOT;
 {
     key1: []
     key2: [
-        'item 1', 
-        "item 2", 
+        'item 1',
+        "item 2",
         "item 3"
     ],
     key3: [true, false, null, 1, 2, 3]
@@ -143,15 +143,15 @@ EOT;
 {
     key1: {},
     key2: {
-        key21 : 'v21', 
-        'key22': "v22", 
+        key21 : 'v21',
+        'key22': "v22",
         "key23": 123,
         key24: ['x', "y", "z", 1, 2, 3, true, false, null]
     },
     key3: {
         key31 : {
             key311: {
-                key3111: [ 
+                key3111: [
                     {
                         nestedKey11: "str",
                         nestedKey12: 1337,
