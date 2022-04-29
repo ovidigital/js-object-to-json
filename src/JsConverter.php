@@ -36,7 +36,7 @@ class JsConverter
         $convertedString = preg_replace('/\s+/m', '', $convertedString);
 
         // 4. And remove all trailing commas in objects
-        $convertedString = str_replace(',}', '}', $convertedString);
+        $convertedString = str_replace([',}', ',]'], ['}', ']'], $convertedString);
 
         // 5. Add double quotes for keys
         $convertedString = preg_replace('/([^{}\[\]#,]+):/', '"$1":', $convertedString);
