@@ -15,6 +15,8 @@ class JsConverterTest extends TestCase
         $converted = JsConverter::convertToJson($input);
 
         $this->assertEquals($expected, $converted);
+
+        $this->assertEquals([], JsConverter::convertToArray($input));
     }
 
     public function testSingleQuotedStrings()
@@ -30,6 +32,12 @@ EOT;
         $converted = JsConverter::convertToJson($input);
 
         $this->assertEquals($expected, $converted);
+
+        $expectedPhpArray = [
+            "key1" => "value 1",
+            "key2" => "value 2"
+        ];
+        $this->assertEquals($expectedPhpArray, JsConverter::convertToArray($input));
     }
 
     public function testMixedQuotedStrings()
