@@ -228,4 +228,43 @@ EOT;
 
         $this->assertEquals($expected, $converted);
     }
+
+    public function testFunctionsRemoval()
+    {
+        $input = <<<EOT
+{
+    key1: (var) => 'Test',
+    key2: (var) => "Test",
+    key3: var => 'Test',
+    key4: var => "Test",
+    key5: () => 'Test',
+    key6: () => { return 'Test'; },
+    key7: (var) => {
+        return 'Test';
+    },
+    key8: () => {
+        return 'Test';
+    },
+    key9: () => {
+        if (complex) {
+            return 'Test';
+        }
+
+        return 'Test';
+    },
+    key10() {
+        return 'Test';
+    },
+    foo: "bar"
+}
+EOT;
+        $expected = <<<EOT
+{"foo":"bar"}
+EOT;
+;
+
+        $converted = JsConverter::convertToJson($input);
+
+        $this->assertEquals($expected, $converted);
+    }
 }
