@@ -25,7 +25,7 @@ class JsConverter
         $convertedString = $jsObjectString;
 
         // 1. Remove functions from objects
-        $convertedString = static::removeFunctions($jsObjectString);
+        $convertedString = self::removeFunctions($jsObjectString);
 
         // 2. Replace all delimited string literals with placeholders
         $convertedString = self::replaceSectionsWithPlaceholders($convertedString, $replacedStringsList, "'");
@@ -87,7 +87,7 @@ class JsConverter
      */
     public static function convertToArray(string $input): ?array
     {
-        $json = static::convertToJson($input);
+        $json = self::convertToJson($input);
 
         return json_decode($json, true);
     }
@@ -122,7 +122,7 @@ class JsConverter
      * @param boolean $debug (optional table view of the logic being broken down)
      * @return string
      */
-    public static function removeFunctions(string $input, bool $debug = false): string
+    protected static function removeFunctions(string $input, bool $debug = false): string
     {
         $functionLines = '/^(\s*)(?:([\'"]?\w+[\'"]?):\s*((?:function\s*)\([^\)]*\)\s*{|\s*(?:\([^)]*\)|[a-z0-9]+)\s*=>\s*)|[a-z0-9]+\([^\)]*\)\s*{)/i';
         $lines = preg_split('/[\n\r]/', $input);
