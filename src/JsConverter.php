@@ -24,7 +24,7 @@ class JsConverter
 
         $convertedString = $jsObjectString;
 
-        // 0. Remove functions from objects
+        // 1. Remove functions from objects
         $convertedString = static::removeFunctions($jsObjectString);
 
         // 2. Replace all delimited string literals with placeholders
