@@ -18,11 +18,9 @@ class JsConverter
      * @param string $jsObjectString The JavaScript object
      * @return string
      */
-    public static function convertToJson(string $jsObjectString)
+    public static function convertToJson(string $jsObjectString): string
     {
         $replacedStringsList = [];
-
-        $convertedString = $jsObjectString;
 
         // 1. Remove functions from objects
         $convertedString = self::removeFunctions($jsObjectString);
@@ -44,12 +42,12 @@ class JsConverter
         // 6. Add double quotes for values
         $convertedString = preg_replace_callback(
             '/:([^{}\[\]#,]+)/',
-            function ($matches) {
+            static function ($matches) {
                 if (is_numeric($matches[1])) {
                     return ':' . $matches[1];
-                } else {
-                    return ':"' . $matches[1] . '"';
                 }
+
+                return ':"' . $matches[1] . '"';
             },
             $convertedString
         );
@@ -65,7 +63,7 @@ class JsConverter
         do {
             $convertedString = preg_replace_callback(
                 '/###(\d+)###/',
-                function ($matches) use (&$replacedStringsList, $deep) {
+                static function ($matches) use (&$replacedStringsList, $deep) {
                     $replace = $replacedStringsList[$matches[1]];
                     unset($replacedStringsList[$matches[1]]);
                     return ($deep ? "'" . $replace . "'" : '"' . $replace . '"');
@@ -122,7 +120,7 @@ class JsConverter
      */
     protected static function removeFunctions(string $input, bool $debug = false): string
     {
-        $functionLines = '/^(\s*)(?:([\'"]?\w+[\'"]?):\s*((?:function\s*)\([^\)]*\)\s*{|\s*(?:\([^)]*\)|[a-z0-9]+)\s*=>\s*)|[a-z0-9]+\([^\)]*\)\s*{)/i';
+        $functionLines = '/^(\s*)(?:([\'"]?\w+[\'"]?):\s*(function\s*\([^)]*\)\s*{|\s*(?:\([^)]*\)|[a-z0-9]+)\s*=>\s*)|[a-z0-9]+\([^)]*\)\s*{)/i';
         $lines = preg_split('/[\n\r]/', $input);
 
         $delete = false;
@@ -147,7 +145,6 @@ class JsConverter
                 $row['mode'] = 'Start (found opens: ' . substr_count($line, '{') . ')';
                 $row['opens'] = $opens;
                 $row['closes'] = $closes;
-                $row['action'] = 'Delete';
                 unset($lines[$index]);
 
                 if ($opens === $closes) {
@@ -201,9 +198,7 @@ class JsConverter
             die();
         }
 
-        $output = implode("\n", $lines);
-
-        return $output;
+        return implode("\n", $lines);
 
     }
 
@@ -221,7 +216,8 @@ class JsConverter
         array &$replacedSectionsList,
         string $delimiter,
         bool $removeDelimitersFromSections = true
-    ) {
+    ): string
+    {
         $output = $input[0];
         $sectionStartPos = $sectionEndPos = -1;
         $contentCopiedUntilPos = 0;
@@ -275,7 +271,7 @@ class JsConverter
      * ```
      * @param array $strings
      */
-    protected static function fixQuoteEscapingForSingleQuoteDelimitedStrings(array &$strings)
+    protected static function fixQuoteEscapingForSingleQuoteDelimitedStrings(array &$strings): void
     {
         foreach ($strings as &$string) {
             // Escape contained double quotes
