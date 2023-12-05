@@ -293,4 +293,25 @@ EOT;
 
         $this->assertEquals($expected, $converted);
     }
+
+
+    public function testMultiLineValues()
+    {
+        $input = <<<EOT
+{
+    key: `
+      some test value1
+      some test value1
+   ` 
+}
+EOT;
+        $expected = '{"key":"
+      some test value1
+      some test value1
+   "}';
+
+        $converted = JsConverter::convertToJson($input);
+
+        $this->assertEquals($expected, $converted);
+    }
 }
