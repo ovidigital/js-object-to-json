@@ -76,7 +76,7 @@ class JsConverter
             $deep = true;
         } while (!empty($replacedStringsList));
 
-        return $convertedString;
+        return preg_replace('/:(")(true|false|null)(")/', ':$2', $convertedString);
     }
 
     /**
@@ -87,9 +87,7 @@ class JsConverter
      */
     public static function convertToArray(string $input): ?array
     {
-        $json = self::convertToJson($input);
-
-        return json_decode($json, true);
+        return json_decode(self::convertToJson($input), true);
     }
 
     /**

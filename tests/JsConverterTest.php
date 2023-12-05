@@ -84,7 +84,7 @@ EOT;
     key3: false
 }
 EOT;
-        $expected = '{"key1":"null","key2":"true","key3":"false"}';
+        $expected = '{"key1":null,"key2":true,"key3":false}';
 
         $converted = JsConverter::convertToJson($input);
 
