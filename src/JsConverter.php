@@ -26,9 +26,11 @@ class JsConverter
         $convertedString = self::removeFunctions(self::removeComments($jsObjectString));
 
         // 2. Replace all delimited string literals with placeholders
+        $convertedString = self::escapeSingleQuoteBetweenDoubleQuotes($convertedString);
         $convertedString = self::replaceSectionsWithPlaceholders($convertedString, $replacedStringsList, "`");
         $convertedString = self::replaceSectionsWithPlaceholders($convertedString, $replacedStringsList, "'");
         self::fixQuoteEscapingForSingleQuoteDelimitedStrings($replacedStringsList);
+        $convertedString = self::unescapeSingleQuoteBetweenDoubleQuotes($convertedString);
         $convertedString = self::replaceSectionsWithPlaceholders($convertedString, $replacedStringsList, '"');
 
         // 3. Now is safe to remove all white space
@@ -280,6 +282,28 @@ class JsConverter
             // Unescape contained single quotes
             $string = preg_replace("/\\\\'/", "'", $string);
         }
+    }
+
+    protected static function escapeSingleQuoteBetweenDoubleQuotes(string $jsonString): string
+    {
+        return preg_replace_callback(
+            '/("[^\'"\n]*\'[^\'"\n]*")/',
+            static function ($matches) {
+                return str_replace("'", "\'", $matches[1]);
+            },
+            $jsonString
+        );
+    }
+
+    protected static function unescapeSingleQuoteBetweenDoubleQuotes(string $jsonString): string
+    {
+        return preg_replace_callback(
+            '/("[^\'"\n]*\'[^\'"\n]*")/',
+            static function ($matches) {
+                return str_replace("\'", "'", $matches[1]);
+            },
+            $jsonString
+        );
     }
 
     /**
