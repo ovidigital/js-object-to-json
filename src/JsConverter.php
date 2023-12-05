@@ -26,6 +26,7 @@ class JsConverter
         $convertedString = self::removeFunctions(self::removeComments($jsObjectString));
 
         // 2. Replace all delimited string literals with placeholders
+        $convertedString = self::replaceSectionsWithPlaceholders($convertedString, $replacedStringsList, "`");
         $convertedString = self::replaceSectionsWithPlaceholders($convertedString, $replacedStringsList, "'");
         self::fixQuoteEscapingForSingleQuoteDelimitedStrings($replacedStringsList);
         $convertedString = self::replaceSectionsWithPlaceholders($convertedString, $replacedStringsList, '"');
