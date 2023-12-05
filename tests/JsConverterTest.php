@@ -314,4 +314,29 @@ EOT;
 
         $this->assertEquals($expected, $converted);
     }
+
+    public function testSingleQuoteBetweenDoubleQuotes()
+    {
+        $input = <<<EOT
+{id:304,name: "Anna's house",jobs:[{id:3041,title: "Drive to Anna's house.",label: "Drive",steps:3}]}
+EOT;
+        $expected = <<<EOT
+{"id":304,"name":"Anna's house","jobs":[{"id":3041,"title":"Drive to Anna's house.","label":"Drive","steps":3}]}
+EOT;
+
+        $converted = JsConverter::convertToJson($input);
+
+        $this->assertEquals($expected, $converted);
+
+        $input = <<<EOT
+{id:304,name: "Anna's house's room",jobs:[{id:3041,title: "Drive to Anna's house's room.",label: "Drive",steps:3}]}
+EOT;
+        $expected = <<<EOT
+{"id":304,"name":"Anna's house's room","jobs":[{"id":3041,"title":"Drive to Anna's house's room.","label":"Drive","steps":3}]}
+EOT;
+
+        $converted = JsConverter::convertToJson($input);
+
+        $this->assertEquals($expected, $converted);
+    }
 }
