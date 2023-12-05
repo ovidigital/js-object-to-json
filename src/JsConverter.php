@@ -23,7 +23,7 @@ class JsConverter
         $replacedStringsList = [];
 
         // 1. Remove functions from objects
-        $convertedString = self::removeFunctions($jsObjectString);
+        $convertedString = self::removeFunctions(self::removeComments($jsObjectString));
 
         // 2. Replace all delimited string literals with placeholders
         $convertedString = self::replaceSectionsWithPlaceholders($convertedString, $replacedStringsList, "'");
@@ -279,5 +279,16 @@ class JsConverter
             // Unescape contained single quotes
             $string = preg_replace("/\\\\'/", "'", $string);
         }
+    }
+
+    /**
+     * Removes oneline and multiline comments from JSON string
+     *
+     * @param string $jsonString
+     * @return string
+     */
+    protected static function removeComments(string $jsonString): string
+    {
+        return preg_replace("/\/\*[\s\S]*?\*\/|((?!>:)|^)\/\/.*$/m", "", $jsonString);
     }
 }

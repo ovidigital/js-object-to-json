@@ -275,4 +275,22 @@ EOT;
 
         $this->assertEquals($expected, $converted);
     }
+
+    public function testComments()
+    {
+        $input = <<<EOT
+{
+    // comment1
+    key1: null, // comment2
+    key2: true, /* comment3 */
+    /* comment4 */
+    key3: false
+}
+EOT;
+        $expected = '{"key1":null,"key2":true,"key3":false}';
+
+        $converted = JsConverter::convertToJson($input);
+
+        $this->assertEquals($expected, $converted);
+    }
 }
