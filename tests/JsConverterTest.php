@@ -276,18 +276,17 @@ EOT;
         $this->assertEquals($expected, $converted);
     }
 
-    public function testComments()
+    public function testSingleLineComments()
     {
         $input = <<<EOT
 {
-    // comment1
-    key1: null, // comment2
-    key2: true, /* comment3 */
-    /* comment4 */
+    // top comment
+    'key1': "value 1", // some other comment with ' quotes "
+    key2: 'value 2', // @see someFunction() or https://www.example.com
     key3: false
 }
 EOT;
-        $expected = '{"key1":null,"key2":true,"key3":false}';
+        $expected = '{"key1":"value 1","key2":"value 2","key3":false}';
 
         $converted = JsConverter::convertToJson($input);
 
@@ -302,7 +301,7 @@ EOT;
     key: `
       some test value1
       some test value1
-   ` 
+   `
 }
 EOT;
         $expected = '{"key":"
@@ -338,5 +337,24 @@ EOT;
         $converted = JsConverter::convertToJson($input);
 
         $this->assertEquals($expected, $converted);
+    }
+
+    public function testURIs() {
+        $input = <<<EOT
+{
+    key1: 'http://www.example.com/foo.jpg',
+    key2: {
+        key22: "https://www.example.com/bar.jpg"
+    },
+    key3: ['public://path/to/file.jpg', 'https://www.example.com/path/to/file.jpg', 'src/**/*.{jpg,png}'],
+    key4: "./path/to/../file.jpg",
+}
+EOT;
+        $expected = <<<EOT
+{"key1":"http://www.example.com/foo.jpg","key2":{"key22":"https://www.example.com/bar.jpg"},"key3":["public://path/to/file.jpg","https://www.example.com/path/to/file.jpg","src/**/*.{jpg,png}"],"key4":"./path/to/../file.jpg"}
+EOT;
+
+    $converted = JsConverter::convertToJson($input);
+    $this->assertEquals($expected, $converted);
     }
 }

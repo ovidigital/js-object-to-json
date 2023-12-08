@@ -22,10 +22,13 @@ class JsConverter
     {
         $replacedStringsList = [];
 
-        // 1. Remove functions from objects
-        $convertedString = self::removeFunctions(self::removeComments($jsObjectString));
+        // Remove single line comments
+        $convertedString = self::removeSingleLineComments($jsObjectString);
 
-        // 2. Replace all delimited string literals with placeholders
+        // Remove functions from objects
+        $convertedString = self::removeFunctions($convertedString);
+
+        // Replace all delimited string literals with placeholders
         $convertedString = self::escapeSingleQuoteBetweenDoubleQuotes($convertedString);
         $convertedString = self::replaceSectionsWithPlaceholders($convertedString, $replacedStringsList, "`");
         $convertedString = self::replaceSectionsWithPlaceholders($convertedString, $replacedStringsList, "'");
@@ -33,16 +36,16 @@ class JsConverter
         $convertedString = self::unescapeSingleQuoteBetweenDoubleQuotes($convertedString);
         $convertedString = self::replaceSectionsWithPlaceholders($convertedString, $replacedStringsList, '"');
 
-        // 3. Now is safe to remove all white space
+        // Now is safe to remove all white space
         $convertedString = preg_replace('/\s+/m', '', $convertedString);
 
-        // 4. And remove all trailing commas in objects
+        // And remove all trailing commas in objects
         $convertedString = str_replace([',}', ',]'], ['}', ']'], $convertedString);
 
-        // 5. Add double quotes for keys
+        // Add double quotes for keys
         $convertedString = preg_replace('/([^{}\[\]#,]+):/', '"$1":', $convertedString);
 
-        // 6. Add double quotes for values
+        // Add double quotes for values
         $convertedString = preg_replace_callback(
             '/:([^{}\[\]#,]+)/',
             static function ($matches) {
@@ -55,12 +58,12 @@ class JsConverter
             $convertedString
         );
 
-        // 7. Make sure "true", "false" and "null" values get delimited by double quotes
+        // Make sure "true", "false" and "null" values get delimited by double quotes
         // Need to run the replacement twice, because not all values get replaced if they are adjacent
         $convertedString = preg_replace('/([^"])(true|false|null)([^"])/', '$1"$2"$3', $convertedString);
         $convertedString = preg_replace('/([^"])(true|false|null)([^"])/', '$1"$2"$3', $convertedString);
 
-        // 8. Replace the placeholders with the initial strings
+        // Replace the placeholders with the initial strings
         $deep = false;
 
         do {
@@ -307,13 +310,16 @@ class JsConverter
     }
 
     /**
-     * Removes oneline and multiline comments from JSON string
+     * Removes single line comments (// ) from the given string.
+     *
+     * In order to avoid conflicts with URIs, the comments are only removed if the two forward slashes (//)
+     * are immediately followed by a white space character.
      *
      * @param string $jsonString
      * @return string
      */
-    protected static function removeComments(string $jsonString): string
+    protected static function removeSingleLineComments(string $jsonString): string
     {
-        return preg_replace("/\/\*[\s\S]*?\*\/|((?!>:)|^)\/\/.*$/m", "", $jsonString);
+        return preg_replace("@//\s.*$@m", "", $jsonString);
     }
 }
